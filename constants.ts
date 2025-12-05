@@ -1,12 +1,25 @@
 import { Coin } from './types';
 
-// NOTE: In a production environment, these should be environment variables.
-// The user requested them to be exposed in the code for this specific task.
-// We check if process is defined to avoid crashes in browser environments.
-const env = typeof process !== 'undefined' ? process.env : {};
+// Helper to access environment variables safely in Vite/Browser
+const getEnv = (key: string, defaultValue: string): string => {
+  // @ts-ignore
+  if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
+    // @ts-ignore
+    return import.meta.env[key];
+  }
+  // Fallback for Node-like environments if necessary
+  if (typeof process !== 'undefined' && process.env && process.env[key]) {
+    return process.env[key] as string;
+  }
+  return defaultValue;
+};
 
-export const SUPABASE_URL = env.SUPABASE_URL || 'https://your-project.supabase.co';
-export const SUPABASE_ANON_KEY = env.SUPABASE_ANON_KEY || 'your-anon-key-here';
+// Default values moved from lib/supabase.ts to here for centralization
+const DEFAULT_SUPABASE_URL = 'https://rbycgxevlfjpmuqfoucf.supabase.co';
+const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJieWNneGV2bGZqcG11cWZvdWNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4OTYwODYsImV4cCI6MjA4MDQ3MjA4Nn0.pJzi9hMpZGED_PJ0zI4YB8g_MRFX0-Ig5eyBl60_4PQ';
+
+export const SUPABASE_URL = getEnv('VITE_SUPABASE_URL', DEFAULT_SUPABASE_URL);
+export const SUPABASE_ANON_KEY = getEnv('VITE_SUPABASE_ANON_KEY', DEFAULT_SUPABASE_KEY);
 
 export const COINS: Coin[] = [
   { symbol: 'BTCUSDT', name: 'Bitcoin' },
