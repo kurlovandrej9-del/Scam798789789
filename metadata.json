@@ -1,0 +1,5 @@
+{
+  "name": "CryptoSim - Simulation Dashboard",
+  "description": "A real-time cryptocurrency dashboard with a unique price simulation engine utilizing Brownian motion to manipulate market data for testing and widget demonstration.",
+  "requestFramePermissions": []
+}
